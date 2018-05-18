@@ -1,0 +1,36 @@
+extends layout
+
+block content
+  #title
+    h1= name
+    p #{company}
+    p #{designation}
+  #actions
+    each item in actions
+      +makeButton(item)
+
+mixin makeButton(obj)
+  if obj.type == 'email'
+    .button#email 
+      a(
+        href="mailto:"+obj.content.email_address
+      ) 
+        div
+          #button-title #{obj.display_text}
+          #button-text #{obj.content.email_address}
+  else if obj.type == 'address'
+    .button#address
+      a(
+        href='https://www.google.com/maps/search/?api=1&query='+obj.content.address.replace(' ', '-')
+      ) 
+        div
+          #button-title #{obj.display_text}
+          #button-text #{obj.content.address}
+  else if obj.type == 'website'
+    .button#website
+      a(
+        href=obj.content.url
+      ) 
+        div
+          #button-title #{obj.display_text}
+          #button-text #{obj.content.url}
